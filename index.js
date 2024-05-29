@@ -3,6 +3,9 @@ const moment = require('moment-timezone');
 
 const app = express();
 
+app.use(express.json()); // This line makes shure the server can handle json playload in request body
+
+
 let data = [
     {
         id: 1,
@@ -64,6 +67,28 @@ app.delete('/api/person/:id', (request, response) => {
     data = data.filter(person => person.id !== id)
     response.status(404).end();
 
+})
+
+app.post('/api/persons', (request, response) => {
+
+    if (!request.body.name || !request.body.number){
+        return response.status(400).json({
+            error: 'Missing data'
+        });
+    }
+
+    const newId = Math.floor(Math.random() * 100000);
+
+    // New object created with the data params 
+    const newPerson = {
+        id: newId,
+        name: request.body.name,
+        number: request.body.number
+    };
+
+    // NewPerson pushed into data
+    data.push(newPerson);
+    response.json(newPerson)
 })
 
 const PORT = 3001;
