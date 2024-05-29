@@ -1,4 +1,6 @@
 const express = require('express');
+const moment = require('moment-timezone');
+
 const app = express();
 
 let data = [
@@ -31,7 +33,16 @@ let data = [
 ]
 
 app.get('/', (request, response) => {
-    response.send('Main URL');
+    response.send("Main URL");
+})
+
+app.get('/info', (request, response) => {
+    const persons = data.length;
+    const timeZone = 'America/Mexico_City';
+    const time = moment().tz(timeZone).format('YYYY-MM-DD HH:mm:ss z');
+
+    
+    response.send(`The phonebook has info for ${persons} people <br>Current time in ${timeZone}: ${time}`);
 })
 
 app.get('/api/persons', (request, response) => {
