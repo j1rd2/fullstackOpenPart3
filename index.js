@@ -70,11 +70,27 @@ app.delete('/api/person/:id', (request, response) => {
 })
 
 app.post('/api/persons', (request, response) => {
+    
+    const existingName = data.find(person => person.name === request.body.name);
+    const existingNumber = data.find(person => person.number === request.body.number);
+
 
     if (!request.body.name || !request.body.number){
         return response.status(400).json({
             error: 'Missing data'
         });
+    }
+
+    if (existingName){
+        return response.status(400).json({
+            error: 'This name already exists, try again'
+        })
+    }
+
+    if (existingNumber){
+        return response.status(400).json({
+            error: 'This number already exists, try again'
+        })
     }
 
     const newId = Math.floor(Math.random() * 100000);
