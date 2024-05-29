@@ -1,9 +1,11 @@
 const express = require('express');
 const moment = require('moment-timezone');
+const morgan = require('morgan');
 
 const app = express();
 
 app.use(express.json()); // This line makes shure the server can handle json playload in request body
+app.use(morgan('tiny'));
 
 
 let data = [
